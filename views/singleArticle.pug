@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    .container
+        h1.text-info= article.title
+        span.text-muted By #{author}
+        p= article.body
+        hr
+        if user
+            if user.id ==article.author
+                //- Actions
+                a.btn.btn-info.mr-1.btn-sm.float-left(href=`/article/edit/${article._id}`) Edit
+                form.float-left(action=`/article/${article._id}?_method=DELETE` method="post")
+                    input(type="hidden" name="_method" value="DELETE")
+                    input(type="submit" class="btn btn-sm btn-danger" value="delete")

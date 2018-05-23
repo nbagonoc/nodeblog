@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    .container
+        h1 Edit Article
+        form(method="POST", action="/article/edit/"+article._id)
+            .form-group
+                label Title:
+                input.form-control(name="title",type="text",value=article.title)
+            .form-group.d-none
+                label Author:
+                input.form-control(name='author', type='text', value=article.author)
+            .form-group
+                label Body:
+                textarea.form-control(name="body")= article.body
+            input.btn.btn-info.btn-sm.mr-1(type="submit",value="Submit")
+            a.btn.btn-danger.btn-sm(href=`/article/${article._id}`) Cancel

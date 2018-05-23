@@ -1,0 +1,11 @@
+extends layout
+
+block content
+    .container
+        h1 Articles
+        each article, i in articles
+            .card.mb-3
+                .card-body
+                    a(href="/article/"+article._id)
+                        h3.text-info= article.title
+                    p.mb-0= article.body

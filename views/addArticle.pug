@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    .container
+        h1 Add Article
+        form(method="POST", action="/article/add")
+            .form-group
+                label Title:
+                input.form-control(name="title",type="text")
+            .form-group
+                label Body:
+                textarea.form-control(name="body")
+            input.btn.btn-info(type="submit",value="submit")
