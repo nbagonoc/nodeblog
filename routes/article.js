@@ -3,9 +3,9 @@ const router = express.Router();
 // const mongoose = require("mongoose");
 
 // Article Model
-let Article = require('../models/Article');
+let Article = require("../models/Article");
 // User Model
-let User = require('../models/User');
+let User = require("../models/User");
 
 // GET | Add article route
 router.get("/add", ensureAuthenticated, (req, res) => {
@@ -56,14 +56,14 @@ router.post("/add", ensureAuthenticated, (req, res) => {
 });
 
 // GET | edit article route
-router.get('/edit/:id', ensureAuthenticated, function(req, res){
-  Article.findById(req.params.id, function(err, article){
-    if(article.author != req.user._id){
-      req.flash('danger', 'Not Authorized');
-      res.redirect('/');
+router.get("/edit/:id", ensureAuthenticated, function(req, res) {
+  Article.findById(req.params.id, function(err, article) {
+    if (article.author != req.user._id) {
+      req.flash("danger", "Not Authorized");
+      res.redirect("/");
     }
-    res.render('editArticle', {
-      article:article
+    res.render("editArticle", {
+      article: article
     });
   });
 });
@@ -89,36 +89,20 @@ router.post("/edit/:id", ensureAuthenticated, (req, res) => {
   });
 });
 
-// DELETE | delete idea process
-// router.delete("/:id", ensureAuthenticated, (req, res) => {
-//   const query = { _id: req.params.id };
-
-//   Article.remove(query, err => {
-//     if (err) {
-//       console.log(err);
-//       return;
-//     } else {
-//       // flash message
-//       req.flash("warning", "Article has been deleted");
-//       res.redirect("/");
-//     }
-//   });
-// });
-
-// Delete Article
-router.delete('/:id', function(req, res){
-  if(!req.user._id){
+// DELETE | Delete article
+router.delete("/:id", function(req, res) {
+  if (!req.user._id) {
     res.status(500).send();
   }
 
-  let query = {_id:req.params.id}
+  let query = { _id: req.params.id };
 
-  Article.findById(req.params.id, function(err, article){
-    if(article.author != req.user._id){
+  Article.findById(req.params.id, function(err, article) {
+    if (article.author != req.user._id) {
       res.status(500).send();
     } else {
-      Article.remove(query, function(err){
-        if(err){
+      Article.remove(query, function(err) {
+        if (err) {
           console.log(err);
         } else {
           // flash message
