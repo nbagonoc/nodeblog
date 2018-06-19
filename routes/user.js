@@ -34,14 +34,13 @@ router.post("/register", (req, res) => {
   const errors = req.validationErrors();
   if (errors) {
     res.render("register", {
-      errors: errors
+      errors
     });
   } else {
     const newUser = new User({
-      // name: name,
-      email: email,
-      username: username,
-      password: password
+      email,
+      username,
+      password
     });
 
     bcrypt.genSalt(10, function(err, salt) {

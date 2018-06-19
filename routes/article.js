@@ -17,7 +17,7 @@ router.get("/:id", (req, res) => {
   Article.findById(req.params.id, (err, article) => {
     User.findById(article.author, (err, user) => {
       res.render("singleArticle", {
-        article: article,
+        article,
         author: user.username
       });
     });
@@ -34,7 +34,7 @@ router.post("/add", ensureAuthenticated, (req, res) => {
 
   if (errors) {
     res.render("addArticle", {
-      errors: errors
+      errors
     });
   } else {
     const article = new Article();
@@ -56,14 +56,14 @@ router.post("/add", ensureAuthenticated, (req, res) => {
 });
 
 // GET | edit article route
-router.get("/edit/:id", ensureAuthenticated, function(req, res) {
-  Article.findById(req.params.id, function(err, article) {
+router.get("/edit/:id", ensureAuthenticated, (req, res) => {
+  Article.findById(req.params.id, (err, article) => {
     if (article.author != req.user._id) {
       req.flash("danger", "Not Authorized");
-      res.redirect("/");
+      return res.redirect("/");
     }
     res.render("editArticle", {
-      article: article
+      article
     });
   });
 });
@@ -90,18 +90,18 @@ router.post("/edit/:id", ensureAuthenticated, (req, res) => {
 });
 
 // DELETE | Delete article
-router.delete("/:id", function(req, res) {
+router.delete("/:id", (req, res) => {
   if (!req.user._id) {
     res.status(500).send();
   }
 
   let query = { _id: req.params.id };
 
-  Article.findById(req.params.id, function(err, article) {
+  Article.findById(req.params.id, (err, article) => {
     if (article.author != req.user._id) {
       res.status(500).send();
     } else {
-      Article.remove(query, function(err) {
+      Article.remove(query, err => {
         if (err) {
           console.log(err);
         } else {
