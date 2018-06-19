@@ -18,7 +18,7 @@ router.get("/:id", (req, res) => {
     User.findById(article.author, (err, user) => {
       res.render("singleArticle", {
         article: article,
-        author: user.name
+        author: user.username
       });
     });
   });

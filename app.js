@@ -76,11 +76,10 @@ app.get("/", (req, res) => {
       console.log(err);
     } else {
       res.render("index", {
-        title: "Articles",
         articles: articles
       });
     }
-  });
+  }).sort({ _id: -1 });
 });
 
 // bring in route files

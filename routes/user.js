@@ -15,14 +15,14 @@ router.get("/register", (req, res) => {
 
 // POST | Register a user
 router.post("/register", (req, res) => {
-  const name = req.body.name;
+  // const name = req.body.name;
   const email = req.body.email;
   const username = req.body.username;
   const password = req.body.password;
   const password2 = req.body.password2;
 
   // validator
-  req.checkBody("name", "Name is required").notEmpty();
+  // req.checkBody("name", "Name is required").notEmpty();
   req.checkBody("email", "Email is required").notEmpty();
   req.checkBody("email", "Email is not valid").isEmail();
   req.checkBody("username", "Username is required").notEmpty();
@@ -38,7 +38,7 @@ router.post("/register", (req, res) => {
     });
   } else {
     const newUser = new User({
-      name: name,
+      // name: name,
       email: email,
       username: username,
       password: password

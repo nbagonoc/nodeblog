@@ -1,11 +1,21 @@
 extends layout
 
 block content
+    .header
+        .header-text
+            h1.m-0.display-1 nodeblog
+            h2.m-0.font-weight-light a simple blog, made with node
     .container
-        h1 Articles
+        ul.list-group
+            != messages('message', locals)
+            if errors
+                each error, i in errors
+                    li(class="list-group-item list-group-item-danger") #{error.msg}
         each article, i in articles
-            .card.mb-3
+            .card.mb-3.shadow
                 .card-body
                     a(href="/article/"+article._id)
-                        h3.text-info= article.title
-                    p.mb-0= article.body
+                        h4.text-dark.text-capitalize= article.title
+                        hr
+                    //- span.text-muted= article.author
+                    p.mb-0.font-weight-light= article.body
