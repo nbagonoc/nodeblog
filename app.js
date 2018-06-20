@@ -44,7 +44,7 @@ app.use(methodOverride("_method"));
 // express-session middleware
 app.use(
   session({
-    secret: "super duper secret",
+    secret: db.secretOrKey,
     resave: true,
     saveUninitialized: true
   })
