@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    .container
+        .row
+            .col-md-3
+                include sidebar
+            .col-md-9
+                != messages('message', locals)
+                if errors
+                    ul.list-group
+                        each error, i in errors
+                            li(class="list-group-item list-group-item-danger") #{error.msg}
+                .card
+                    .card-header.text-capitalize Welcome, #{user.username}
+                    .card-body Welcome to the dashboard

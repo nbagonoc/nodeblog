@@ -69,20 +69,9 @@ app.get("*", function(req, res, next) {
   next();
 });
 
-// index route
-app.get("/", (req, res) => {
-  Article.find({}, (err, articles) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.render("index", {
-        articles: articles
-      });
-    }
-  }).sort({ _id: -1 });
-});
-
 // bring in route files
+const index = require("./routes/index");
+app.use("/", index);
 const article = require("./routes/article");
 app.use("/article", article);
 const user = require("./routes/user");

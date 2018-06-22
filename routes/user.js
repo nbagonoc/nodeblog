@@ -15,11 +15,7 @@ router.get("/register", (req, res) => {
 
 // POST | Register a user
 router.post("/register", (req, res) => {
-  // const name = req.body.name;
-  const email = req.body.email;
-  const username = req.body.username;
-  const password = req.body.password;
-  const password2 = req.body.password2;
+  const { email, username, password, password2 } = req.body;
 
   // validator
   // req.checkBody("name", "Name is required").notEmpty();
@@ -33,32 +29,55 @@ router.post("/register", (req, res) => {
 
   const errors = req.validationErrors();
   if (errors) {
+    // return the values, and dont create user
     res.render("register", {
-      errors
-    });
-  } else {
-    const newUser = new User({
+      errors,
       email,
       username,
-      password
+      password,
+      password2
     });
-
-    bcrypt.genSalt(10, function(err, salt) {
-      bcrypt.hash(newUser.password, salt, (err, hash) => {
-        if (err) {
-          console.log(err);
-        }
-        newUser.password = hash;
-        newUser.save(err => {
-          if (err) {
-            console.log(err);
-            return;
+  } else {
+    // values are valid, check db for email
+    User.findOne({ email }).then(data => {
+      if (data) {
+        // the email already exist
+        req.flash("danger", "Email already exist");
+        res.render("register", { email, username, password, password2 });
+      } else {
+        // values are valid, check db for usename
+        User.findOne({ username }).then(data => {
+          if (data) {
+            // the username already exist
+            req.flash("danger", "Username already exist");
+            res.render("register", { email, username, password, password2 });
           } else {
-            req.flash("success", "You have successfully registered");
-            res.redirect("/user/login");
+            // create user
+            const newUser = new User({
+              email,
+              username,
+              password
+            });
+            bcrypt.genSalt(10, function(err, salt) {
+              bcrypt.hash(newUser.password, salt, (err, hash) => {
+                if (err) {
+                  console.log(err);
+                }
+                newUser.password = hash;
+                newUser.save(err => {
+                  if (err) {
+                    console.log(err);
+                    return;
+                  } else {
+                    req.flash("success", "You have successfully registered");
+                    res.redirect("/user/login");
+                  }
+                });
+              });
+            });
           }
         });
-      });
+      }
     });
   }
 });
@@ -71,7 +90,7 @@ router.get("/login", (req, res) => {
 // POST | login process
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", {
-    successRedirect: "/",
+    successRedirect: "/dashboard",
     failureRedirect: "/user/login",
     failureFlash: true
   })(req, res, next);

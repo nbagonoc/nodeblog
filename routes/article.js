@@ -26,15 +26,18 @@ router.get("/:id", (req, res) => {
 
 // POST | Add article process
 router.post("/add", ensureAuthenticated, (req, res) => {
+  const { title, body } = req.body;
+
   req.checkBody("title", "Title is required").notEmpty();
   req.checkBody("body", "Body is required").notEmpty();
 
   //   get errors
   const errors = req.validationErrors();
-
   if (errors) {
     res.render("addArticle", {
-      errors
+      errors,
+      title,
+      body
     });
   } else {
     const article = new Article();

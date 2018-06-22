@@ -2,23 +2,27 @@ extends layout
 
 block content
     .container
-        ul.list-group.mb-3
-            != messages('message', locals)
-            if errors
-                each error, i in errors
-                    li(class="list-group-item list-group-item-danger") #{error.msg}
-        .card.shadow
-            .card-header.text-capitalize edit blog post
-            .card-body
-                form(method="POST", action="/article/edit/"+article._id)
-                    .form-group
-                        label Title:
-                        input.form-control(name="title",type="text",value=article.title)
-                    .form-group.d-none
-                        label Author:
-                        input.form-control(name='author', type='text', value=article.author)
-                    .form-group
-                        label Body:
-                        textarea.form-control(name="body", rows=5)= article.body
-                    input.btn.btn-outline-success.mr-2(type="submit",value="Submit")
-                    a.btn.btn-outline-danger(href=`/article/${article._id}`) Cancel
+        .row
+            .col-md-3
+                include sidebar
+            .col-md-9
+                != messages('message', locals)
+                if errors
+                    ul.list-group.mb-3
+                        each error, i in errors
+                            li(class="list-group-item list-group-item-danger") #{error.msg}
+                .card
+                    .card-header.text-capitalize edit blog post
+                    .card-body
+                        form(method="POST", action="/article/edit/"+article._id)
+                            .form-group
+                                label Title:
+                                input.form-control(name="title",type="text",value=article.title)
+                            .form-group.d-none
+                                label Author:
+                                input.form-control(name='author', type='text', value=article.author)
+                            .form-group
+                                label Body:
+                                textarea.form-control(name="body", rows=5)= article.body
+                            input.btn.btn-outline-success.mr-2(type="submit",value="Submit")
+                            a.btn.btn-outline-danger(href=`/article/${article._id}`) Cancel

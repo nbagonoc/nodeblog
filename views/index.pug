@@ -7,15 +7,21 @@ block content
             h2.m-0.font-weight-light a simple blog, made with node
     .container
         ul.list-group
-            != messages('message', locals)
-            if errors
-                each error, i in errors
-                    li(class="list-group-item list-group-item-danger") #{error.msg}
-        each article, i in articles
-            .card.mb-3.shadow
-                .card-body
-                    a(href="/article/"+article._id)
-                        h4.text-dark.text-capitalize= article.title
-                        hr
-                    //- span.text-muted= article.author
-                    p.mb-0.font-weight-light= article.body
+        != messages('message', locals)
+        if errors
+            each error, i in errors
+                li(class="list-group-item list-group-item-danger") #{error.msg}
+        .row
+            .col-md-5.mb-3
+                ul.list-group
+                    each article, i in articles
+                        li.list-group-item
+                                a.text-dark(href="/article/"+article._id) #{article.title}
+            .col-md-7
+                each article, i in articles
+                    .card.mb-3
+                        .card-body
+                            a(href="/article/"+article._id)
+                                h4.text-dark.text-capitalize= article.title
+                                hr
+                            p.mb-0.font-weight-light= article.body

@@ -5,11 +5,11 @@ block content
         .vertical-align-element
             .container
                 .row
-                    .col-md-6.mx-auto
+                    .col-md-5.mx-auto
                         h3.text-center.text-secondary.font-weight-light Sign-in
-                        ul.list-group
-                            != messages('message', locals)
-                            if errors
+                        != messages('message', locals)
+                        if errors
+                            ul.list-group
                                 each error, i in errors
                                     li(class="list-group-item list-group-item-danger") #{error.msg}
                         form(method="POST", action="/user/login")

@@ -2,22 +2,24 @@ extends layout
 
 block content
     .container
-        ul.list-group
-            != messages('message', locals)
-            if errors
-                each error, i in errors
-                    li(class="list-group-item list-group-item-danger") #{error.msg}
-        .card.shadow
-            .card-body
-                    h2.text-dark.text-capitalize.mb-0= article.title
-                    span.text-muted.small By #{author}
-                    hr
-                    p.font-weight-light= article.body
-                    if user
-                        if user.id ==article.author
-                            //- Actions
+        .row
+            .col-md-7.mx-auto
+                ul.list-group
+                    != messages('message', locals)
+                    if errors
+                        each error, i in errors
+                            li(class="list-group-item list-group-item-danger") #{error.msg}
+                .card
+                    .card-body
+                            h2.text-dark.text-capitalize.mb-0= article.title
+                            span.text-muted.small By #{author}
                             hr
-                            a.btn.btn-outline-success.mr-2.float-left(href=`/article/edit/${article._id}`) Edit
-                            form.float-left(action=`/article/${article._id}?_method=DELETE` method="post")
-                                input(type="hidden" name="_method" value="DELETE")
-                                input(type="submit" class="btn btn-outline-danger" value="delete")
+                            p.font-weight-light= article.body
+                            if user
+                                if user.id ==article.author
+                                    //- Actions
+                                    hr
+                                    a.btn.btn-outline-success.mr-2.float-left(href=`/article/edit/${article._id}`) Edit
+                                    form.float-left(action=`/article/${article._id}?_method=DELETE` method="post")
+                                        input(type="hidden" name="_method" value="DELETE")
+                                        input(type="submit" class="btn btn-outline-danger" value="delete")
